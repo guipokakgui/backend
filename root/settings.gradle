@@ -1,0 +1,13 @@
+pluginManagement {
+    repositories {
+        //maven { url "https://repo.gsitm.com/repository/m2-public/" }
+		maven { url "http://203.245.65.64:8081/repository/maven-public/" }
+        gradlePluginPortal() // https://plugins.gradle.org/m2/
+    }
+}
+
+rootProject.name = 'root'
+
+include 'cmm'
+include 'partner'
+

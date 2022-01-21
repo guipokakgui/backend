@@ -1,0 +1,4 @@
+application:
+  bo:
+    test: 1111
+    test-prop: test222

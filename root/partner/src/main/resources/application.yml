@@ -1,0 +1,73 @@
+
+debug: true
+
+server:
+  port: 9401
+  servlet:
+    context-path: /
+
+spring:
+  profiles:
+    active: local
+
+
+mybatis:
+  mapperLocations: classpath:/mapper/**/*.xml,classpath:/mapper2/**/*.xml
+  type-aliases-package: com.gsitm.ustra.java.management.models
+  configuration:
+    jdbc-type-for-null: "NULL"
+   #   mapUnderscoreToCamelCase: true
+   
+---
+spring:
+  profiles: local
+  
+ustra:
+  core:
+    properteis:      encryption:        enabled: true
+        key: v89o9xvd46c88
+    process-info:
+      default-system-code: BO
+  data:
+    procedure-manager:
+      enabled: true
+    datasource:
+      default-datasource-name: rds1
+      datasources:
+        rds1:
+          url: jdbc:log4jdbc:oracle:thin:@framework-oracle.c0uiyan5ae24.ap-northeast-2.rds.amazonaws.com:1521/GSITMSI
+          driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+          username: gsitm_si_admin
+          password: gsitmsi6700!
+  mvc:
+    view:
+      api-prefix: api
+      client-crypto-key: N3Z0Z28xMmcyOTMzaTBkZQ==
+      type: STATIC_THYEMELEAF
+    rest:
+      exclude-wrapping-url-patterns: /api/test/outbound/rest2, /api/file/attach
+    wrapper:
+      exclude-request-url-patterns: /api/file/attach, /api/file/convert/resource, /api/file/convert/metaData
+      
+  management:
+    bo:
+      app:
+        use-user-approval: false
+        auth-approval-type: NONE
+        menu-icon-file-group-id: file4
+        is-personal-info-system: true
+        maximum-menu-depth: 3
+        use-additional-auth-role: true
+        user-menu-include-system-code: true
+        use-user-approval-add-info: true        
+      authentication:
+        allow-anoymous-authentication: true
+        system-name: management-bo
+        system-key: BO
+        token-key: EC-PARTNER-ACC-TOKEN
+        refresh-token-key: EC-PARTNER-REF-TOKEN
+        check-duplication: false
+        duplication-realtime-check-type: NONE
+        realtime-duplication-check-url: /api/auth-ws
+    
+

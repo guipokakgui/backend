@@ -1,0 +1,83 @@
+buildscript {
+    ext {
+        springBootVersion = '2.2.5.RELEASE'
+        set('springCloudVersion', "Hoxton.SR3")
+    }
+
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://repo.gsitm.com/repository/m2-public/" }
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('io.spring.gradle:dependency-management-plugin:1.0.9.RELEASE')
+        classpath("io.franzbecker:gradle-lombok:1.8")
+    }
+}
+
+allprojects {
+    group = 'com.gscaltex.eaccount.partner'
+    version = '0.0.1-SNAPSHOT'
+}
+
+subprojects {
+
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+		eclipse {
+			classpath { downloadSources=true }
+		}
+
+
+    ext {
+        set('springCloudVersion', "Hoxton.SR3")
+        ustraVersion = '2.0.49.10-SNAPSHOT'
+    }
+
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+
+    task initSourceFolders {
+        sourceSets*.java.srcDirs*.each {
+            if (!it.exists()) {
+                it.mkdirs()
+            }
+        }
+
+        sourceSets*.resources.srcDirs*.each {
+            if (!it.exists()) {
+                it.mkdirs()
+            }
+        }
+    }
+
+    repositories {
+      	mavenCentral()
+	    //maven { url "https://repo.gsitm.com/repository/public/" }
+	    //maven { url "https://repo.gsitm.com/repository/m2-public/" }
+		maven { url "http://203.245.65.64:8081/repository/maven-public/" }
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+      	compileOnly 'org.projectlombok:lombok'
+        compileOnly 'org.springframework.boot:spring-boot-devtools'
+        compile 'org.springframework.boot:spring-boot-starter-aop'
+    }
+}

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eaccount.partner.java.bo.sample.crud.SampleCrudRepository">
+
+	<select id="select" resultType="com.eaccount.partner.java.bo.sample.crud.SampleCrudModel">
+		SELECT
+			ROW_NUMBER() OVER (ORDER BY USE_YN) AS R_NUMBERS,
+			GRP_CD,
+			DTL_CD,
+			CD_NM,
+			CD_DESC,
+			RMK,
+			USE_YN,
+			REG_DTTM,
+			REG_USR_ID,
+			REG_USR_IP,
+			UPD_DTTM,
+			UPD_USR_ID,
+			UPD_USR_IP
+		FROM
+			USTRA_SAMPLE_CMM_CD
+		WHERE
+			1 = 1
+	      AND GRP_CD = #{arg1.grpCd}
+		  <if test="arg1.useYn != null and arg1.useYn != ''">
+			 AND USE_YN =  #{arg1.useYn}
+	      </if>
+	</select>
+
+	<select id="selectGroups" resultType="com.eaccount.partner.java.bo.sample.crud.SampleCrudModel">
+		SELECT
+			GRP_CD,
+			DTL_CD,
+			CD_NM,
+			CD_DESC
+		FROM
+			USTRA_SAMPLE_CMM_CD
+		WHERE DTL_CD = '*'
+	</select>
+
+	<select id="selectDetail" resultType="com.eaccount.partner.java.bo.sample.crud.SampleCrudModel">
+		SELECT
+			GRP_CD,
+			DTL_CD,
+			CD_NM,
+			CD_DESC,
+			RMK,
+			USE_YN,
+			REG_DTTM,
+			REG_USR_ID,
+			REG_USR_IP,
+			UPD_DTTM,
+			UPD_USR_ID,
+			UPD_USR_IP
+		FROM
+			USTRA_SAMPLE_CMM_CD
+		WHERE GRP_CD = #{grpCd}
+		  AND DTL_CD = #{dtlCd}
+	</select>
+
+	<select id="selectDetail2" resultType="com.eaccount.partner.java.bo.sample.crud.SampleCrudModel">
+		SELECT
+			ROW_NUMBER() OVER (ORDER BY USE_YN) AS R_NUMBERS,
+			GRP_CD,
+			DTL_CD,
+			CD_NM,
+			CD_DESC,
+			RMK,
+			USE_YN,
+			REG_DTTM,
+			REG_USR_ID,
+			REG_USR_IP,
+			UPD_DTTM,
+			UPD_USR_ID,
+			UPD_USR_IP
+		FROM
+			USTRA_SAMPLE_CMM_CD
+		<!-- WHERE GRP_CD = #{arg0.grpCd}
+		  AND DTL_CD = #{arg0.dtlCd} -->
+	</select>
+
+	<insert id="insert">
+		INSERT INTO USTRA_SAMPLE_CMM_CD (
+			GRP_CD,
+			DTL_CD,
+			CD_NM,
+			CD_DESC,
+			RMK,
+			USE_YN,
+			REG_DTTM,
+			REG_USR_ID,
+			REG_USR_IP,
+			UPD_DTTM,
+			UPD_USR_ID,
+			UPD_USR_IP
+		) VALUES (
+			#{grpCd},
+			#{dtlCd},
+			#{cdNm},
+			#{cdDesc},
+			#{rmk},
+			#{useYn},
+			CURRENT_TIMESTAMP,
+			#{regUsrId},
+			#{regUsrIp},
+			CURRENT_TIMESTAMP,
+			#{updUsrId},
+			#{updUsrIp}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE USTRA_SAMPLE_CMM_CD SET
+			CD_NM = #{cdNm},
+			CD_DESC = #{cdDesc},
+			RMK = #{rmk},
+			USE_YN = #{useYn},
+			UPD_DTTM = CURRENT_TIMESTAMP,
+			UPD_USR_ID = #{updUsrId},
+			UPD_USR_IP = #{updUsrIp}
+		 WHERE GRP_CD = #{grpCd}
+		  AND DTL_CD = #{dtlCd}
+	</update>
+
+
+	<delete id="delete">
+		DELETE USTRA_SAMPLE_CMM_CD
+		 WHERE GRP_CD = #{grpCd}
+		  AND DTL_CD = #{dtlCd}
+	</delete>
+
+</mapper>
